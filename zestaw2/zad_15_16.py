@@ -9,7 +9,7 @@ Script replace the string "GvR" with "Guido van Rossum" in the text - TASK 2.16.
 """
 
 def get_string(my_list):
-    result = "".join(str(my_list[i]) for i in range(0, len(my_list), 1))
+    result = "".join(str(x) for x in my_list)
     return result
 
 def replace_string(text, old_string, new_string):

@@ -6,7 +6,7 @@ Script displays word in way that its characters are separated by an underscore -
 """
 
 def change_text(text):
-    result = '_'.join(text[i:i + 1] for i in range(0, len(text), 1))
+    result = '_'.join(text)
     return result
 
 def test_result():

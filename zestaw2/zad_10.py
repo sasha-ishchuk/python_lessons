@@ -23,8 +23,6 @@ def first_test():
     except AssertionError:
         print("Tests failed")
 
-    del example_text1, res1, expected_res1
-
 def second_test():
     example_text2 = """Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
             Suspendisse fringilla orci eget felis vestibulum, ut feugiat purus semper.
@@ -39,8 +37,6 @@ def second_test():
         print("Number of words in text: {}".format(count_chars(example_text2)))
     except AssertionError:
         print("Tests failed")
-
-    del example_text2, res2, expected_res2
 
 def main():
     first_test()
