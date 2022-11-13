@@ -42,7 +42,9 @@ def mul_poly(poly1, poly2):
 
 # bool, [0], [0,0], itp.
 def is_zero(poly):
-    return sum(poly) == 0
+    for item in poly:
+        if item != 0:
+            return False
 
 
 # bool, porównywanie poly1(x) == poly2(x)
