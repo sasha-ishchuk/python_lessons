@@ -30,7 +30,11 @@ class FileUtils:
     @staticmethod
     def write_graph_to_file(graph, path):
         ver_number = graph.v()
+        is_directed = 0
+        if graph.is_directed() is True:
+            is_directed = 1
         with open(path, 'w') as f:
             f.write(str(ver_number) + '\n')
+            f.write(str(is_directed) + '\n')
             for edge in graph.iter_edges():
                 f.write(str(edge.source) + ' ' + str(edge.target) + ' ' + str(edge.weight) + '\n')
