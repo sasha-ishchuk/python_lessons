@@ -27,6 +27,7 @@ class UserInterface:
         elif answer == "2":
             cls.read_graph()
         elif answer == "stop":
+            print("\n" + Fore.RED + Back.LIGHTGREEN_EX + "\033[1m GOOD BYE! " + Style.RESET_ALL)
             sys.exit()
         else:
             raise ValueError("Unrecognized answer!")
@@ -59,6 +60,7 @@ class UserInterface:
             time.sleep(2)
             cls.graph_manipulation(graph)
         elif answer == "stop":
+            print("\n" + Fore.RED + Back.LIGHTGREEN_EX + "\033[1m GOOD BYE! " + Style.RESET_ALL)
             sys.exit()
         else:
             raise ValueError("Unrecognized answer.")
@@ -67,12 +69,18 @@ class UserInterface:
     def create_graph(cls):
         answer = input("\nChoose number of graph vertices ['stop' to exit]: ")
         if answer == "stop":
+            print("\n" + Fore.RED + Back.LIGHTGREEN_EX + "\033[1m GOOD BYE! " + Style.RESET_ALL)
             sys.exit()
         try:
             answer = int(answer)
+            directed = int(input("\nGraph must be directed? [1/0]: "))
             print(Fore.LIGHTMAGENTA_EX + f"\nCreating graph with {answer} vertices...  result: ")
             print(Style.RESET_ALL)
-            graph = Graph(answer)
+            graph = None
+            if directed == 0:
+                graph = Graph(answer)
+            elif directed == 1:
+                graph = Graph(answer, True)
             print(graph.__repr__())
             time.sleep(2)
             cls.graph_manipulation(graph)
@@ -83,12 +91,14 @@ class UserInterface:
     def graph_manipulation(cls, graph):
         print(Fore.GREEN + "\nOPTIONS: \n0. Print graph \n1. Check vertices number \n2. Check edges number "
               + "\n3. Check graph is directed \n4. Check node exists \n5. Add edge \n6. Check edge exists "
-              + "\n7. Delete edge \n8. Check edge's weight \n9. GO TO ITERATORS \n10. GO TO GRAPH'S TRANSFORMATION ")
+              + "\n7. Delete edge \n8. Check edge's weight \n9. GO TO ITERATORS \n10. GO TO GRAPH'S TRANSFORMATION "
+              + "\n11. GO TO SEARCH ALGORITHMS ")
         print(Style.RESET_ALL)
 
         answer = input("Choose option ['stop' to exit]: ")
 
         if answer == "stop":
+            print("\n" + Fore.RED + Back.LIGHTGREEN_EX + "\033[1m GOOD BYE! " + Style.RESET_ALL)
             sys.exit()
 
         elif answer == "0":
@@ -181,6 +191,9 @@ class UserInterface:
         elif answer == "10":
             cls.graph_transformations(graph)
 
+        elif answer == "11":
+            cls.search_algorithms(graph)
+
         else:
             raise ValueError("Unrecognized answer.")
 
@@ -194,6 +207,7 @@ class UserInterface:
         answer = input("Choose option ['stop' to exit]: ")
 
         if answer == "stop":
+            print("\n" + Fore.RED + Back.LIGHTGREEN_EX + "\033[1m GOOD BYE! " + Style.RESET_ALL)
             sys.exit()
 
         elif answer == "0":
@@ -262,6 +276,7 @@ class UserInterface:
         answer = input("Choose option ['stop' to exit]: ")
 
         if answer == "stop":
+            print("\n" + Fore.RED + Back.LIGHTGREEN_EX + "\033[1m GOOD BYE! " + Style.RESET_ALL)
             sys.exit()
 
         elif answer == "0":
@@ -279,14 +294,14 @@ class UserInterface:
             print(Fore.LIGHTMAGENTA_EX + "\nYour transposed graph: ")
             print(graph.transpose().__repr__())
             time.sleep(2)
-            cls.graph_iterators(graph)
+            cls.graph_transformations(graph)
 
         elif answer == "3":
             print(Fore.LIGHTMAGENTA_EX + "\nComplement of your graph: ")
             print(graph.complement().__repr__())
             print(Style.RESET_ALL)
             time.sleep(2)
-            cls.graph_iterators(graph)
+            cls.graph_transformations(graph)
 
         elif answer == "4":
             print(Fore.LIGHTMAGENTA_EX + "\nLet's choose vertices you want to exclude from graph... ")
@@ -299,6 +314,51 @@ class UserInterface:
                 print("\nInduced subgraph of your graph: ")
                 print(graph.subgraph(exclusion).__repr__())
                 print(Style.RESET_ALL)
+                cls.graph_transformations(graph)
+            except ValueError:
+                print("INT value required.")
+
+        else:
+            raise ValueError("Unrecognized answer.")
+
+    @classmethod
+    def search_algorithms(cls, graph):
+        print(Fore.GREEN + "\nOPTIONS:: \n0. BACK TO MAIN MENU \n1. DFS \n2. BFS ")
+        print(Style.RESET_ALL)
+
+        answer = input("Choose option ['stop' to exit]: ")
+
+        if answer == "stop":
+            print("\n" + Fore.RED + Back.LIGHTGREEN_EX + "\033[1m GOOD BYE! " + Style.RESET_ALL)
+            sys.exit()
+
+        elif answer == "0":
+            time.sleep(2)
+            cls.graph_manipulation(graph)
+
+        elif answer == "1":
+            print(Fore.LIGHTMAGENTA_EX + "\nLet's start the Depth First Search... ")
+            node = input("\nVertex number to start: ")
+            try:
+                node = int(node)
+                print("Result:", end=" ")
+                graph.dfs(node)
+                print(Style.RESET_ALL)
+                time.sleep(2)
+                cls.search_algorithms(graph)
+            except ValueError:
+                print("INT value required.")
+
+        elif answer == "2":
+            print(Fore.LIGHTMAGENTA_EX + "\nLet's start the Breadth First Search... ")
+            node = input("\nVertex number to start: ")
+            try:
+                node = int(node)
+                print("Result:", end=" ")
+                graph.bfs(node)
+                print(Style.RESET_ALL)
+                time.sleep(2)
+                cls.search_algorithms(graph)
             except ValueError:
                 print("INT value required.")
 
