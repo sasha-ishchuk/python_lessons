@@ -10,6 +10,7 @@ from 0 to n-1. Implemented BFS and DFS.
 ### Table of contents:
 1. [Classes](#1-classes)
 2. [Tests](#2-tests)
+3. [Example graphs](#3-example-graphs)
 
 ___
 # 1. Classes
@@ -342,3 +343,25 @@ USE: pytest library.
 #### *This test file tests the implementation of the Edge class which represents an edge in a graph.*
 
 USE: pytest library.
+
+
+___
+# 3. Example graphs
+##### *Visual representation of graphs from .txt files.*
+
+### ***1. graph5.txt***
+#### *Undirected graph with 5 vertices and 5 edges.*
+
+![graph5](graphs_txt_png/graph5.png)
+
+
+### ***2. graph6-directed.txt***
+#### *Directed graph with 6 vertices and 9 edges.*
+
+![graph6-directed](graphs_txt_png/graph6-directed.png)
+
+
+### ***3. graph10-directed.txt***
+#### *Directed graph with 10 vertices and 45 edges.*
+
+![graph10](graphs_txt_png/graph10-directed.png)

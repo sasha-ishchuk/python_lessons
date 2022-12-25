@@ -34,28 +34,28 @@ class UserInterface:
 
     @classmethod
     def read_graph(cls):
-        print(Fore.GREEN + "\nChoose file you want to use: \n1. 'graph5.txt' \n2. 'graph10.txt' "
-                           "\n3. 'graph6-directed.txt'")
+        print(Fore.GREEN + "\nChoose file you want to use: \n1. 'graph5.txt' \n2. 'graph6-directed.txt' "
+                           "\n3. 'graph10-directed'")
         print(Style.RESET_ALL)
         answer = input("Choose option ['stop' to exit]: ")
         if answer == "1":
             print(Fore.LIGHTMAGENTA_EX + "\nCreating graph from 'graph5.txt' file...  result: ")
             print(Style.RESET_ALL)
-            graph = FileUtils.read_graph_from_file("C:\\Users\\Sasha\\OneDrive\\Рабочий стол\\graph5.txt")
+            graph = FileUtils.read_graph_from_file("graphs_txt_png/graph5.txt")
             print(graph.__repr__())
             time.sleep(2)
             cls.graph_manipulation(graph)
         elif answer == "2":
-            print(Fore.LIGHTMAGENTA_EX + "\nCreating graph from 'graph10.txt' file...  result: ")
+            print(Fore.LIGHTMAGENTA_EX + "\nCreating graph from 'graph6-directed.txt' file...  result: ")
             print(Style.RESET_ALL)
-            graph = FileUtils.read_graph_from_file("C:\\Users\\Sasha\\OneDrive\\Рабочий стол\\graph10.txt")
+            graph = FileUtils.read_graph_from_file("graphs_txt_png/graph6-directed.txt")
             print(graph.__repr__())
             time.sleep(2)
             cls.graph_manipulation(graph)
         elif answer == "3":
-            print(Fore.LIGHTMAGENTA_EX + "\nCreating graph from 'result.txt' file...  result: ")
+            print(Fore.LIGHTMAGENTA_EX + "\nCreating graph from 'graph10-directed.txt' file...  result: ")
             print(Style.RESET_ALL)
-            graph = FileUtils.read_graph_from_file("C:\\Users\\Sasha\\OneDrive\\Рабочий стол\\graph6-directed.txt")
+            graph = FileUtils.read_graph_from_file("graphs_txt_png/graph10-directed.txt")
             print(graph.__repr__())
             time.sleep(2)
             cls.graph_manipulation(graph)
