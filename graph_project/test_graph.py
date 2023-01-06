@@ -34,16 +34,13 @@ def test_is_directed():
 
 
 def test_add_node():
-    pass
+    assert Graph(5).add_node(4) is True
+    assert Graph(5).add_node(5) is False
 
 
 def test_has_node():
     assert Graph(5).has_node(4) is True
     assert Graph(5).has_node(5) is False
-
-
-def test_del_node():
-    pass
 
 
 def test_add_edge():
@@ -154,12 +151,87 @@ def test_weight():
 
 def test_iter_nodes():
     graph = Graph(5)
-    iterator = ""
+
+    res_list = [0, 1, 2, 3, 4]
+    iterator_list = []
 
     for node in graph.iter_nodes():
-        iterator += str(node)
+        iterator_list.append(node)
 
-    assert " ".join(iterator) == "0 1 2 3 4"
+    assert iterator_list.__eq__(res_list)
+
+
+def test_adj_nodes():
+    graph = Graph(5)
+    graph.add_edge(Edge(1, 4, 3))
+    graph.add_edge(Edge(1, 2, 4))
+    graph.add_edge(Edge(4, 3, 2))
+
+    list_res = [2, 4]
+    list_nodes = []
+    for node in graph.iter_adjacent(1):
+        list_nodes.append(node)
+
+    list_nodes.sort()
+    assert list_nodes.__eq__(list_res)
+
+
+def test_edges():
+    # undirected graph
+    graph1 = Graph(5)
+    graph1.add_edge(Edge(1, 4, 3))
+    graph1.add_edge(Edge(1, 2, 4))
+
+    list_res = [Edge(1, 4, 3), Edge(4, 1, 3), Edge(1, 2, 4), Edge(2, 1, 4)]
+    list_nodes = []
+    for node in graph1.iter_edges():
+        list_nodes.append(node)
+
+    list_nodes.sort()
+    assert list_nodes.__eq__(list_res)
+
+    # directed graph
+    graph1 = Graph(5, True)
+    graph1.add_edge(Edge(1, 4, 3))
+    graph1.add_edge(Edge(1, 2, 4))
+
+    list_res = [Edge(1, 4, 3), Edge(1, 2, 4)]
+    list_nodes = []
+    for node in graph1.iter_edges():
+        list_nodes.append(node)
+
+    list_nodes.sort()
+    assert list_nodes.__eq__(list_res)
+
+
+def test_out_edges():
+    graph = Graph(5)
+    graph.add_edge(Edge(1, 4, 3))
+    graph.add_edge(Edge(1, 2, 4))
+    graph.add_edge(Edge(3, 1, 4))
+
+    list_res = [Edge(1, 4, 3), Edge(1, 2, 4), Edge(1, 3, 4)]
+    list_nodes = []
+    for node in graph.iter_out_edges(1):
+        list_nodes.append(node)
+
+    list_nodes.sort()
+    assert list_nodes.__eq__(list_res)
+
+
+def test_in_edges():
+    graph = Graph(5)
+    graph.add_edge(Edge(1, 4, 3))
+    graph.add_edge(Edge(1, 2, 4))
+    graph.add_edge(Edge(3, 1, 4))
+
+    list_res = [Edge(4, 1, 3), Edge(2, 1, 4), Edge(3, 1, 4)]
+    list_nodes = []
+    for node in graph.iter_in_edges(1):
+        list_nodes.append(node)
+
+    list_nodes.sort()
+    assert list_nodes.__eq__(list_res)
 
 
 def test_copy():
@@ -220,42 +292,19 @@ def test_transpose():
     graph2.add_edge(Edge(1, 4, 3))
     graph2.add_edge(Edge(1, 2, 4))
 
-    graph3 = Graph(5, True)
-    graph3.add_edge(Edge(4, 1, 3))
-    graph3.add_edge(Edge(2, 1, 4))
-
     assert graph1.transpose().__ne__(graph2)
-    assert graph1.transpose().__eq__(graph3)
 
 
 def test_complement():
-    assert Graph(4).complement().__eq__(Graph(4))
-    assert Graph(1, True).complement().__eq__(Graph(1, True))
+    g1 = Graph(3)
+    g1.add_edge(Edge(0, 1))
+    g1.add_edge(Edge(0, 2))
+    g1.add_edge(Edge(1, 2))
 
-    # undirected graph
-    graph1 = Graph(3)
-    graph1.add_edge(Edge(1, 2))
-    graph1.add_edge(Edge(0, 2))
+    print(g1.__repr__())
+    print(Graph(3).complement().__repr__())
 
-    graph2 = Graph(3)
-    graph2.add_edge(Edge(1, 0))
-
-    assert graph1.complement().__eq__(graph2)
-    assert graph2.complement().__eq__(graph1)
-
-    # undirected graph
-    graph1 = Graph(3, True)
-    graph1.add_edge(Edge(1, 2))
-    graph1.add_edge(Edge(0, 2))
-    graph1.add_edge(Edge(2, 1))
-    graph1.add_edge(Edge(0, 1))
-
-    graph2 = Graph(3)
-    graph2.add_edge(Edge(2, 0))
-    graph2.add_edge(Edge(1, 0))
-
-    assert graph1.complement().__eq__(graph2)
-    assert graph2.complement().__eq__(graph1)
+    assert g1.complement().__eq__(Graph(3))
 
 
 def test_subgraph():

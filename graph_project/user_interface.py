@@ -92,7 +92,7 @@ class UserInterface:
         print(Fore.GREEN + "\nOPTIONS: \n0. Print graph \n1. Check vertices number \n2. Check edges number "
               + "\n3. Check graph is directed \n4. Check node exists \n5. Add edge \n6. Check edge exists "
               + "\n7. Delete edge \n8. Check edge's weight \n9. GO TO ITERATORS \n10. GO TO GRAPH'S TRANSFORMATION "
-              + "\n11. GO TO SEARCH ALGORITHMS ")
+              + "\n11. GO TO SEARCH ALGORITHMS \n12. Save graph to .txt file")
         print(Style.RESET_ALL)
 
         answer = input("Choose option ['stop' to exit]: ")
@@ -194,6 +194,15 @@ class UserInterface:
         elif answer == "11":
             cls.search_algorithms(graph)
 
+        elif answer == "12":
+            name = input("Choose file name: ")
+            path = f"graphs_txt_png/{name}.txt"
+            FileUtils.write_graph_to_file(graph, path)
+            print(Fore.LIGHTMAGENTA_EX + "Graph saved!")
+
+            time.sleep(2)
+            cls.graph_manipulation(graph)
+
         else:
             raise ValueError("Unrecognized answer.")
 
@@ -224,7 +233,8 @@ class UserInterface:
 
         elif answer == "2":
             print(Fore.LIGHTMAGENTA_EX + "\nLet's iterate over the graph adjacency vertices...")
-            for i in graph.iter_adjacent():
+            node = int(input("\nVertex number to start: "))
+            for i in graph.iter_adjacent(node):
                 print(i, end=" ")
             print(Style.RESET_ALL)
             time.sleep(2)
@@ -270,7 +280,7 @@ class UserInterface:
     @classmethod
     def graph_transformations(cls, graph):
         print(Fore.GREEN + "\nOPTIONS:: \n0. BACK TO MAIN MENU \n1. Copy graph \n2. Create transposed graph "
-              + "\n3. Create complement of the graph1 \n4. Create induced subgraph ")
+              + "\n3. Create complement of the graph \n4. Create induced subgraph ")
         print(Style.RESET_ALL)
 
         answer = input("Choose option ['stop' to exit]: ")

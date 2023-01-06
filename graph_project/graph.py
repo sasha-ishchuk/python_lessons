@@ -1,4 +1,5 @@
 from copy import copy
+import collections
 
 from graph_project.edge import Edge
 
@@ -40,7 +41,7 @@ class Graph:
         if self.is_directed():
             return edges
         else:
-            return int(edges / 2)
+            return edges // 2
 
     def is_directed(self):
         """ bool, is graph directed? """
@@ -89,7 +90,7 @@ class Graph:
         """ Check if graph has such edge. """
         source = edge.source
         target = edge.target
-        if (0 > source > self.n) or (0 > target > self.n):
+        if source < 0 or source > self.n or target < 0 or target > self.n:
             raise IndexError('Graph has not such vertices')
         else:
             if self.matrix[source][target] != 0:
@@ -116,7 +117,7 @@ class Graph:
         """ Returns edge's weight. """
         source = edge.source
         target = edge.target
-        if (0 >= source > self.n) or (0 >= target > self.n):
+        if source < 0 or source > self.n or target < 0 or target > self.n:
             raise IndexError('Graph has not such vertices')
         elif self.matrix[source][target] == 0:
             print('Graph has not such edge')
@@ -129,22 +130,22 @@ class Graph:
 
     def iter_adjacent(self, node):
         """ Iterate over the adjacency vertices. """
-        for element in self.matrix[node]:
-            if element != 0:
-                yield self.matrix[node].index(element)
+        for i in range(self.n):
+            if self.matrix[node][i] != 0:
+                yield i
 
     def iter_out_edges(self, node):
         """ Iterate over the outgoing edges. """
-        for element in self.matrix[node]:
-            if element != 0:
+        for i in range(self.n):
+            if self.matrix[node][i] != 0:
                 source = node
-                target = self.matrix[node].index(element)
-                weight = self.matrix[node][self.matrix[node].index(element)]
+                target = i
+                weight = self.matrix[source][target]
                 yield Edge(source, target, weight)
 
     def iter_in_edges(self, node):
         """ Iterate over the incoming edges. """
-        for i in range(self.v()):
+        for i in range(self.n):
             if self.has_edge(Edge(i, node)):
                 source = i
                 target = node
@@ -153,10 +154,14 @@ class Graph:
 
     def iter_edges(self):
         """ Iterate over edges. """
-        for i in range(self.v()):
-            for j in range(self.v()):
+        for i in range(self.n):
+            for j in range(self.n):
                 if self.matrix[i][j] != 0:
-                    yield Edge(i, j, self.matrix[i][j])
+                    if not self.directed:
+                        yield Edge(i, j, self.matrix[i][j])
+                    else:
+                        if i < j:
+                            yield Edge(i, j, self.matrix[i][j])
 
     def copy(self):
         """ Returns the copy of the graph. """
@@ -167,17 +172,17 @@ class Graph:
     def transpose(self):
         """ Returns a transposed graph. """
         transposed_graph = self.copy()
-        for i in range(self.v()):
-            for j in range(self.v()):
+        for i in range(self.n):
+            for j in range(self.n):
                 transposed_graph.matrix[j][i] = self.matrix[i][j]
         return transposed_graph
 
     def complement(self):
         """ Returns the complement of the graph. """
         comp_graph = self.copy()
-        for i in range(self.v()):
-            for j in range(self.v()):
-                if comp_graph.matrix[i][j] == 0:
+        for i in range(self.n):
+            for j in range(self.n):
+                if comp_graph.matrix[i][j] == 0 and i != j:
                     comp_graph.matrix[i][j] = 1
                 elif comp_graph.matrix[i][j] != 0:
                     comp_graph.matrix[i][j] = 0
@@ -199,30 +204,28 @@ class Graph:
         visited[start] = True
 
         # For every node of the graph
-        for i in range(self.v()):
-
-            if self.matrix[start][i] == 1 and not visited[i]:
+        for i in range(self.n):
+            if self.matrix[start][i] != 0 and not visited[i]:
                 self.dfs_util(i, visited)
 
     def dfs(self, start):
-        visited = [False] * self.v()
+        visited = [False] * self.n
         self.dfs_util(start, visited)
 
     def bfs(self, start):
+        visited = [False] * self.n
+        q = collections.deque([start])
 
-        visited = [False] * self.v()
-        q = [start]
-
-        # Set source as visited
+        # Set current node as visited
         visited[start] = True
 
         while q:
             vis = q[0]
+            # Print current node
             print(vis, end=' ')
-            q.pop(0)
+            q.popleft()
 
-            for i in range(self.v()):
-                if (self.matrix[vis][i] == 1 and
-                        (not visited[i])):
+            for i in range(self.n):
+                if self.matrix[vis][i] != 0 and not visited[i]:
                     q.append(i)
                     visited[i] = True
